@@ -79,11 +79,24 @@ func main() {
 		for _, matches := range search {
 			// fmt.Printf("  %v\n", regexp)
 			for _, match := range matches {
+				lines := []string{}
 				for _, line := range match.Context {
 					//fmt.Printf("    %v\n", line)
 					cleanLine := strings.TrimSpace(line)
 					cleanLine = StripAnsi(cleanLine)
-					TestFailCount[cleanLine]++
+					// de-duplication
+					// count each line only once
+					dup := false
+					for _, l := range lines {
+						if l == cleanLine {
+							dup = true
+						}
+					}
+					if !dup {
+						TestFailCount[cleanLine]++
+						lines = append(lines, cleanLine)
+					}
+
 				}
 			}
 		}
