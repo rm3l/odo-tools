@@ -116,7 +116,8 @@ func main() {
 	sort.Slice(fails, func(i, j int) bool { return fails[i].Fails > fails[j].Fails })
 
 	fmt.Println("# odo test statistics")
-	fmt.Printf("Last update: %s (UTC)\n", time.Now().UTC().Format("2006-01-02 15:04:05"))
+	fmt.Printf("Last update: %s (UTC)\n\n", time.Now().UTC().Format("2006-01-02 15:04:05"))
+	fmt.Println("Generated with https://github.com/kadel/odo-tools")
 	fmt.Println("## FLAKY TESTS: Failed test scenarios in past 14 days")
 	fmt.Println("| Failures | Test Name |")
 	fmt.Println("|---|---|")
