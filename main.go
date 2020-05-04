@@ -337,7 +337,7 @@ func getTestJobRunTime(url string, blobStorage BlobStorage) (*time.Time, error) 
 		return nil, nil
 	}
 
-	// Parse the first line in the first to determine when the test started (and failed.)
+	// Parse the first line in the file to determine when the test started (and failed.)
 	{
 		topLine := contentsByLine[0]
 
