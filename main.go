@@ -279,9 +279,9 @@ func main() {
 
 	fmt.Println("# odo test statistics")
 	fmt.Printf("Last update: %s (UTC)\n\n", time.Now().UTC().Format("2006-01-02 15:04:05"))
-	fmt.Println("Generated with https://github.com/kadel/odo-tools")
+	fmt.Println("Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools")
 	fmt.Println("## FLAKY TESTS: Failed test scenarios in past 14 days")
-	fmt.Println("| Failure Score* | Failures | Test Name | Last Seen | PR List and Logs ")
+	fmt.Println("| Failure Score<sup>*</sup> | Failures | Test Name | Last Seen | PR List and Logs ")
 	fmt.Println("|---|---|---|---|---|")
 	for _, f := range fails {
 
@@ -321,7 +321,7 @@ func main() {
 	fmt.Println()
 	fmt.Println()
 
-	fmt.Println("`*` - Failure score is an arbitrary severity estimate, and is approximately `(# of PRs the test failure was seen in * total # of failures) / (days since failure)`. See code for full algorithm -- PRs welcome for algorithm improvements.")
+	fmt.Println("<sup>*</sup> - Failure score is an arbitrary severity estimate, and is approximately `(# of PRs the test failure was seen in * # of test failures) / (days since failure)`. See code for full algorithm -- PRs welcome for algorithm improvements.")
 
 }
 
@@ -447,7 +447,10 @@ func NewBlobStorage(pathParam string) (*BlobStorage, error) {
 	}
 
 	if _, err := os.Stat(pathParam); os.IsNotExist(err) {
-		os.MkdirAll(pathParam, 644)
+		err = os.Mkdir(pathParam, 0755)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	files, err := ioutil.ReadDir(pathParam)
@@ -485,7 +488,7 @@ func (s BlobStorage) store(key string, value string) error {
 
 	expectedPath := s.path + "/" + base64Key
 
-	err := ioutil.WriteFile(expectedPath, []byte(value), 644)
+	err := ioutil.WriteFile(expectedPath, []byte(value), 0755)
 
 	return err
 
