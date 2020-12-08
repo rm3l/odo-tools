@@ -44,15 +44,16 @@ type periodicJobData struct {
 	failure        string
 	clusterVersion string
 	url            string
+	flag           bool
 }
 
 // Result ...
 type Result map[string]map[string][]Match
 
 func main() {
-	//struck()
-	periodicjobstats()
-
+	ex, errorListNonDuplicate := periodicjobstats()
+	c := 0
+	var failurelist string
 	blobStorage, err := NewBlobStorage("./.cache")
 	if err != nil {
 		//fmt.Println(err)
@@ -287,12 +288,12 @@ func main() {
 		return fails[j].TestName > fails[i].TestName
 	})
 
-	//fmt.Println("# odo test statistics")
-	//fmt.Printf("Last update: %s (UTC)\n\n", time.Now().UTC().Format("2006-01-02 15:04:05"))
-	//fmt.Println("Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools")
-	//fmt.Println("## FLAKY TESTS: Failed test scenarios in past 14 days")
-	//fmt.Println("| Failure Score<sup>*</sup> | Failures | Test Name | Last Seen | PR List and Logs ")
-	//fmt.Println("|---|---|---|---|---|")
+	fmt.Println("# odo test statistics")
+	fmt.Printf("Last update: %s (UTC)\n\n", time.Now().UTC().Format("2006-01-02 15:04:05"))
+	fmt.Println("Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools")
+	fmt.Println("## FLAKY TESTS: Failed test scenarios in past 14 days")
+	fmt.Println("| Failure Score<sup>*</sup> | Failures on PR | Failures on PrediocJob | Test Name | Last Seen | PR List and Logs | PeriodicJob failure List")
+	fmt.Println("|---|---|---|---|---|---|---|")
 	for _, f := range fails {
 
 		// Skip failures that appear to be contained to a single PR
@@ -324,14 +325,35 @@ func main() {
 
 			prListString += " "
 		}
+		for _, k := range ex {
+			if k.failure == f.TestName {
+				failurelist = fmt.Sprintf("%s [%s](%s) ", failurelist, k.clusterVersion, k.url)
+				k.flag = true
+				c = c + 1
+			}
 
-		//fmt.Printf("| %d | %d | %s | %s | %s\n", f.Score, f.Fails, f.TestName, f.LastSeen, prListString)
+		}
+
+		fmt.Printf("| %d | %d | %d | %s | %s | %s| %s\n", f.Score, f.Fails, c, f.TestName, f.LastSeen, prListString, failurelist)
+		failurelist = ""
+	}
+	for _, k := range errorListNonDuplicate {
+		c = 0
+		for _, t := range ex {
+			if k == t.failure && t.flag == false {
+				t.flag = true
+				c = c + 1
+				failurelist = fmt.Sprintf("%s [%s](%s) ", failurelist, t.clusterVersion, t.url)
+			}
+		}
+		fmt.Printf("| %s | %s | %d | %s | %s | %s| %s\n", "-", "-", c, k, "-", "-", failurelist)
+		failurelist = ""
 	}
 
-	//fmt.Println()
-	//fmt.Println()
+	fmt.Println()
+	fmt.Println()
 
-	//fmt.Println("<sup>*</sup> - Failure score is an arbitrary severity estimate, and is approximately `(# of PRs the test failure was seen in * # of test failures) / (days since failure)`. See code for full algorithm -- PRs welcome for algorithm improvements.")
+	fmt.Println("<sup>*</sup> - Failure score is an arbitrary severity estimate, and is approximately `(# of PRs the test failure was seen in * # of test failures) / (days since failure)`. See code for full algorithm -- PRs welcome for algorithm improvements.")
 
 }
 
@@ -522,11 +544,12 @@ func (s BlobStorage) retrieve(key string) (string, error) {
 
 }
 
-func periodicjobstats() {
+func periodicjobstats() ([]periodicJobData, []string) {
 
 	var ex []periodicJobData
+	var AllFailures []string
 	buildid := []string{}
-	clusters := []string{"4.2", "4.3", "4.4", "4.5"}
+	clusters := []string{"4.2", "4.3", "4.4", "4.5", "4.6"}
 	for _, testclusterVersion := range clusters {
 
 		historyurl := fmt.Sprintf("https://prow.ci.openshift.org/job-history/gs/origin-ci-test/logs/periodic-ci-openshift-odo-master-v%s-integration-e2e-periodic?buildId=", testclusterVersion)
@@ -550,9 +573,8 @@ func periodicjobstats() {
 		doc.Find(".table-container tbody .run-failure").Each(func(i int, s *goquery.Selection) {
 			// For each item found, get the band and title
 			buildid = append(buildid, s.Find("a").Text())
-			// bt := s.Find("td").Text()
-			//fmt.Printf("%s  %s\n", clusterVersion, buildid)
-
+			//bt := strings.Split(s.Find("td").Text(), " ")
+			//fmt.Println(dt.Format(bt[28]))
 		})
 		//for _, bid := range buildid {
 		for i := 1; i < len(buildid); i++ {
@@ -574,18 +596,26 @@ func periodicjobstats() {
 			cleanLine = StripAnsi(cleanLine)
 			for _, failCase := range strings.Split(string(cleanLine), "\n") {
 				if strings.Contains(failCase, "[Fail]") {
-					fmt.Println(testclusterVersion, failCase, logurl)
-					n := periodicJobData{failure: failCase, clusterVersion: testclusterVersion, url: logurl}
+					//fmt.Println(testclusterVersion, failCase, logurl)
+					n := periodicJobData{failure: failCase, clusterVersion: testclusterVersion, url: logurl, flag: false}
 					ex = append(ex, n)
-					//	n := periodicData{failure: failCase, clusterVersion: testclusterVersion, url: logurl}
-					//	periodicData = append(periodicData, n)
+					AllFailures = append(AllFailures, failCase)
 				}
 			}
 		}
 	}
-	// for i = range tabelData {
-	// 	fmt.Println(i)
-	// }
-	// fmt.Println("value of i =", i)
-	fmt.Println(len(ex), ex)
+	occured := map[string]bool{}
+	result := []string{}
+	for e := range AllFailures {
+
+		// check if already the mapped
+		// variable is set to true or not
+		if occured[AllFailures[e]] != true {
+			occured[AllFailures[e]] = true
+
+			// Append to result slice.
+			result = append(result, AllFailures[e])
+		}
+	}
+	return ex, result
 }
