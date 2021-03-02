@@ -56,7 +56,7 @@ func main() {
 	var failurelist string
 	blobStorage, err := NewBlobStorage("./.cache")
 	if err != nil {
-		//fmt.Println(err)
+		fmt.Println(err)
 		return
 	}
 
