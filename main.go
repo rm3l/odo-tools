@@ -549,7 +549,7 @@ func periodicjobstats() ([]periodicJobData, []string) {
 	var ex []periodicJobData
 	var AllFailures []string
 	buildid := []string{}
-	clusters := []string{"4.2", "4.3", "4.4", "4.5", "4.6"}
+	clusters := []string{"4.2", "4.3", "4.4", "4.5", "4.6", "4.7"}
 	for _, testclusterVersion := range clusters {
 
 		historyurl := fmt.Sprintf("https://prow.ci.openshift.org/job-history/gs/origin-ci-test/logs/periodic-ci-openshift-odo-master-v%s-integration-e2e-periodic?buildId=", testclusterVersion)
