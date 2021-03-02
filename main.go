@@ -327,7 +327,7 @@ func main() {
 		}
 		for _, k := range ex {
 			if k.failure == f.TestName {
-				failurelist = fmt.Sprintf("%s [%s](%s) ", failurelist, k.clusterVersion, k.url)
+				failurelist = fmt.Sprintf("%s [%s](%s),", failurelist, k.clusterVersion, k.url)
 				k.flag = true
 				c = c + 1
 			}
@@ -343,7 +343,7 @@ func main() {
 			if k == t.failure && t.flag == false {
 				t.flag = true
 				c = c + 1
-				failurelist = fmt.Sprintf("%s [%s](%s) ", failurelist, t.clusterVersion, t.url)
+				failurelist = fmt.Sprintf("%s [%s](%s),", failurelist, t.clusterVersion, t.url)
 			}
 		}
 		fmt.Printf("| %s | %s | %d | %s | %s | %s| %s\n", "-", "-", c, k, "-", "-", failurelist)
