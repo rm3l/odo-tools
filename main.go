@@ -51,9 +51,9 @@ type periodicJobData struct {
 type Result map[string]map[string][]Match
 
 func main() {
-	ex, errorListNonDuplicate := periodicjobstats()
-	c := 0
-	var failurelist string
+	// ex, errorListNonDuplicate := periodicjobstats()
+	// c := 0
+	// var failurelist string
 	blobStorage, err := NewBlobStorage("./.cache")
 	if err != nil {
 		fmt.Println(err)
@@ -71,21 +71,21 @@ func main() {
 	// }
 	// defer jsonFile.Close()
 
-	req, err := http.NewRequest("GET", "https://search.svc.ci.openshift.org/search", nil)
+	req, err := http.NewRequest("GET", "https://search.ci.openshift.org/search", nil)
 	if err != nil {
 		panic(err)
 	}
-	// https://search.svc.ci.openshift.org/search?search=%5C%5BFail%5C%5D&maxAge=336h&context=0&type=build-log&name=pull-ci-openshift-odo-master-&maxMatches=5&maxBytes=20971520
+
+	// https://search.ci.openshift.org/search?context=0&maxAge=336h&maxBytes=20971520&maxMatches=5&name=pull-ci-openshift-odo-main-&search=%5C%5BFail%5C%5D&type=build-log
 	q := req.URL.Query()
 	q.Add("search", "\\[Fail\\]")
 	q.Add("maxAge", "336h")
 	q.Add("context", "0")
 	q.Add("type", "build-log")
-	q.Add("name", "pull-ci-openshift-odo-master-")
+	q.Add("name", "pull-ci-openshift-odo-main-")
 	q.Add("maxMatches", "5")
 	q.Add("maxBytes", "20971520")
 	req.URL.RawQuery = q.Encode()
-
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -107,7 +107,7 @@ func main() {
 
 	// iterate over all results
 	for k, search := range result {
-
+		fmt.Println(k)
 		expectedBuildLogURL, err := parseURL(k)
 		if err != nil {
 			expectedBuildLogURL = ""
@@ -288,72 +288,72 @@ func main() {
 		return fails[j].TestName > fails[i].TestName
 	})
 
-	fmt.Println("# odo test statistics")
-	fmt.Printf("Last update: %s (UTC)\n\n", time.Now().UTC().Format("2006-01-02 15:04:05"))
-	fmt.Println("Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools")
-	fmt.Println("## FLAKY TESTS: Failed test scenarios in past 14 days")
-	fmt.Println("| Failure Score<sup>*</sup> | Failures on PR | Failures on PrediocJob | Test Name | Last Seen | PR List and Logs | PeriodicJob failure List")
-	fmt.Println("|---|---|---|---|---|---|---|")
-	for _, f := range fails {
+	// fmt.Println("# odo test statistics")
+	// fmt.Printf("Last update: %s (UTC)\n\n", time.Now().UTC().Format("2006-01-02 15:04:05"))
+	// fmt.Println("Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools")
+	// fmt.Println("## FLAKY TESTS: Failed test scenarios in past 14 days")
+	// fmt.Println("| Failure Score<sup>*</sup> | Failures on PR | Failures on PrediocJob | Test Name | Last Seen | PR List and Logs | PeriodicJob failure List")
+	// fmt.Println("|---|---|---|---|---|---|---|")
+	// for _, f := range fails {
 
-		// Skip failures that appear to be contained to a single PR
-		if len(f.PRList) <= 1 {
-			continue
-		}
+	// 	// Skip failures that appear to be contained to a single PR
+	// 	if len(f.PRList) <= 1 {
+	// 		continue
+	// 	}
 
-		prListString := fmt.Sprintf("%d: ", len(f.PRList))
-		for _, prNumber := range f.PRList {
+	// 	prListString := fmt.Sprintf("%d: ", len(f.PRList))
+	// 	for _, prNumber := range f.PRList {
 
-			logURLs := f.Entry.LogURLs[prNumber]
+	// 		logURLs := f.Entry.LogURLs[prNumber]
 
-			prListString += fmt.Sprintf("[#%d](%s/%d)", prNumber, "https://github.com/openshift/odo/pull", prNumber)
+	// 		prListString += fmt.Sprintf("[#%d](%s/%d)", prNumber, "https://github.com/openshift/odo/pull", prNumber)
 
-			if len(logURLs) > 0 {
+	// 		if len(logURLs) > 0 {
 
-				prListString += "<sup>"
+	// 			prListString += "<sup>"
 
-				for index, logURL := range logURLs {
-					prListString += "[" + strconv.FormatInt(int64(index+1), 10) + "](" + logURL + ")"
+	// 			for index, logURL := range logURLs {
+	// 				prListString += "[" + strconv.FormatInt(int64(index+1), 10) + "](" + logURL + ")"
 
-					if index+1 != len(logURLs) {
-						prListString += ", "
-					}
-				}
+	// 				if index+1 != len(logURLs) {
+	// 					prListString += ", "
+	// 				}
+	// 			}
 
-				prListString += "</sup>"
-			}
+	// 			prListString += "</sup>"
+	// 		}
 
-			prListString += " "
-		}
-		for _, k := range ex {
-			if k.failure == f.TestName {
-				failurelist = fmt.Sprintf("%s [%s](%s),", failurelist, k.clusterVersion, k.url)
-				k.flag = true
-				c = c + 1
-			}
+	// 		prListString += " "
+	// 	}
+	// 	for _, k := range ex {
+	// 		if k.failure == f.TestName {
+	// 			failurelist = fmt.Sprintf("%s [%s](%s),", failurelist, k.clusterVersion, k.url)
+	// 			k.flag = true
+	// 			c = c + 1
+	// 		}
 
-		}
+	// 	}
 
-		fmt.Printf("| %d | %d | %d | %s | %s | %s| %s\n", f.Score, f.Fails, c, f.TestName, f.LastSeen, prListString, failurelist)
-		failurelist = ""
-	}
-	for _, k := range errorListNonDuplicate {
-		c = 0
-		for _, t := range ex {
-			if k == t.failure && t.flag == false {
-				t.flag = true
-				c = c + 1
-				failurelist = fmt.Sprintf("%s [%s](%s),", failurelist, t.clusterVersion, t.url)
-			}
-		}
-		fmt.Printf("| %s | %s | %d | %s | %s | %s| %s\n", "-", "-", c, k, "-", "-", failurelist)
-		failurelist = ""
-	}
+	// 	fmt.Printf("| %d | %d | %d | %s | %s | %s| %s\n", f.Score, f.Fails, c, f.TestName, f.LastSeen, prListString, failurelist)
+	// 	failurelist = ""
+	// }
+	// for _, k := range errorListNonDuplicate {
+	// 	c = 0
+	// 	for _, t := range ex {
+	// 		if k == t.failure && t.flag == false {
+	// 			t.flag = true
+	// 			c = c + 1
+	// 			failurelist = fmt.Sprintf("%s [%s](%s),", failurelist, t.clusterVersion, t.url)
+	// 		}
+	// 	}
+	// 	fmt.Printf("| %s | %s | %d | %s | %s | %s| %s\n", "-", "-", c, k, "-", "-", failurelist)
+	// 	failurelist = ""
+	// }
 
-	fmt.Println()
-	fmt.Println()
+	// fmt.Println()
+	// fmt.Println()
 
-	fmt.Println("<sup>*</sup> - Failure score is an arbitrary severity estimate, and is approximately `(# of PRs the test failure was seen in * # of test failures) / (days since failure)`. See code for full algorithm -- PRs welcome for algorithm improvements.")
+	// fmt.Println("<sup>*</sup> - Failure score is an arbitrary severity estimate, and is approximately `(# of PRs the test failure was seen in * # of test failures) / (days since failure)`. See code for full algorithm -- PRs welcome for algorithm improvements.")
 
 }
 
@@ -549,11 +549,12 @@ func periodicjobstats() ([]periodicJobData, []string) {
 	var ex []periodicJobData
 	var AllFailures []string
 	buildid := []string{}
-	clusters := []string{"4.2", "4.3", "4.4", "4.5", "4.6", "4.7"}
+	clusters := []string{"4.6"} //, "4.7", "4.8"}
 	for _, testclusterVersion := range clusters {
 
-		historyurl := fmt.Sprintf("https://prow.ci.openshift.org/job-history/gs/origin-ci-test/logs/periodic-ci-openshift-odo-master-v%s-integration-e2e-periodic?buildId=", testclusterVersion)
-		// Request the HTML page.
+		historyurl := fmt.Sprintf("https://prow.ci.openshift.org/job-history/gs/origin-ci-test/logs/periodic-ci-openshift-odo-main-v%s-integration-e2e-periodic?buildId=", testclusterVersion)
+		// Request the HTML page.  https://prow.ci.openshift.org/job-history/gs/origin-ci-test/logs/periodic-ci-openshift-odo-main-v4.8-integration-e2e-periodic?buildId=
+		fmt.Println(historyurl)
 		res, err := http.Get(historyurl)
 		if err != nil {
 			log.Fatal(err)
@@ -562,47 +563,49 @@ func periodicjobstats() ([]periodicJobData, []string) {
 		if res.StatusCode != 200 {
 			log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
 		}
-
+		// str, err := ioutil.ReadAll(res.Body)
+		// fmt.Println(string(str))
 		// Load the HTML document
 		doc, err := goquery.NewDocumentFromReader(res.Body)
 		if err != nil {
 			log.Fatal(err)
 		}
-
 		// Find the review items
-		doc.Find(".table-container tbody .run-failure").Each(func(i int, s *goquery.Selection) {
+		doc.Find("script").Each(func(i int, s *goquery.Selection) {
 			// For each item found, get the band and title
 			buildid = append(buildid, s.Find("a").Text())
+			// fmt.Printf(s.Find("a").Text())
+			// fmt.Print(buildid)
 			//bt := strings.Split(s.Find("td").Text(), " ")
 			//fmt.Println(dt.Format(bt[28]))
 		})
 		//for _, bid := range buildid {
-		for i := 1; i < len(buildid); i++ {
-			// https://gcsweb-ci.apps.ci.l2s4.p1.openshiftapps.com/gcs/origin-ci-test/logs/periodic-ci-openshift-odo-master-v4.4-integration-e2e-periodic/1331930925767856128/artifacts/integration-e2e-periodic/integration-e2e-periodic-steps/container-logs/test.log
-			logurl := fmt.Sprintf("https://gcsweb-ci.apps.ci.l2s4.p1.openshiftapps.com/gcs/origin-ci-test/logs/periodic-ci-openshift-odo-master-v%s-integration-e2e-periodic/%s/artifacts/integration-e2e-periodic/integration-e2e-periodic-steps/container-logs/test.log", testclusterVersion, buildid[i])
+		// for i := 1; i < len(buildid); i++ {
+		// 	// https://gcsweb-ci.apps.ci.l2s4.p1.openshiftapps.com/gcs/origin-ci-test/logs/periodic-ci-openshift-odo-master-v4.4-integration-e2e-periodic/1331930925767856128/artifacts/integration-e2e-periodic/integration-e2e-periodic-steps/container-logs/test.log
+		// 	logurl := fmt.Sprintf("https://gcsweb-ci.apps.ci.l2s4.p1.openshiftapps.com/gcs/origin-ci-test/logs/periodic-ci-openshift-odo-main-v%s-integration-e2e-periodic/%s/artifacts/integration-e2e-periodic/integration-e2e-periodic-steps/container-logs/test.log", testclusterVersion, buildid[i])
 
-			//check the log file and retrive failure reason and store it in the struct
-			res, err := http.Get(logurl)
-			if err != nil {
-				log.Fatal(err)
-			}
-			defer res.Body.Close()
-			body, err := ioutil.ReadAll(res.Body)
-			if err != nil {
+		// 	//check the log file and retrive failure reason and store it in the struct
+		// 	res, err := http.Get(logurl)
+		// 	if err != nil {
+		// 		log.Fatal(err)
+		// 	}
+		// 	defer res.Body.Close()
+		// 	body, err := ioutil.ReadAll(res.Body)
+		// 	if err != nil {
 
-				panic(err)
-			}
-			cleanLine := strings.TrimSpace(string(body))
-			cleanLine = StripAnsi(cleanLine)
-			for _, failCase := range strings.Split(string(cleanLine), "\n") {
-				if strings.Contains(failCase, "[Fail]") {
-					//fmt.Println(testclusterVersion, failCase, logurl)
-					n := periodicJobData{failure: failCase, clusterVersion: testclusterVersion, url: logurl, flag: false}
-					ex = append(ex, n)
-					AllFailures = append(AllFailures, failCase)
-				}
-			}
-		}
+		// 		panic(err)
+		// 	}
+		// 	cleanLine := strings.TrimSpace(string(body))
+		// 	cleanLine = StripAnsi(cleanLine)
+		// 	for _, failCase := range strings.Split(string(cleanLine), "\n") {
+		// 		if strings.Contains(failCase, "[Fail]") {
+		// 			fmt.Println(testclusterVersion, failCase, logurl)
+		// 			n := periodicJobData{failure: failCase, clusterVersion: testclusterVersion, url: logurl, flag: false}
+		// 			ex = append(ex, n)
+		// 			AllFailures = append(AllFailures, failCase)
+		// 		}
+		// 	}
+		// }
 	}
 	occured := map[string]bool{}
 	result := []string{}
