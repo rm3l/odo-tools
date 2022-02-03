@@ -1,4 +1,6 @@
 #!/bin/sh
 
+# bash ./update-graph.sh
 
-go run main.go | gist -f test-stats.md -u 2570427b9113ea0bb546f45723b7a643
+go run main.go | gist -f test-stats.md -u 102d08389c61e7f7293570bf38205d3b 
+echo update
