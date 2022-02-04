@@ -21,4 +21,4 @@ jobs:
     - name: Build
       run: ./update-with-actions.sh
       env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        G_TOKEN: ${{secrets.G_TOKEN}}
