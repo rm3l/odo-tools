@@ -1,9 +1,9 @@
-name: Go
+name: update data
 
 on:
+  schedule:
+    - cron:  '0 1 * * *'
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -12,13 +12,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
         go-version: 1.17
+    - name: Run
+      run: go run main.go > output/flake-stats.md
+    - name: Commit
+      run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add output/flake-stats.md
+          git commit -m "update flake-stats.md"
+          git push
 
-    - name: Build
-      run: ./update-with-actions.sh
-      env:
-        G_TOKEN: ${{secrets.G_TOKEN}}
+# name: Go
+
+# on:
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
+
+# jobs:
+
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v2
+
+#     - name: Set up Go
+#       uses: actions/setup-go@v2
+#       with:
+#         go-version: 1.17
+
+#     - name: Build
+#       run: ./update-with-actions.sh
+#       env:
+#         G_TOKEN: ${{secrets.G_TOKEN}}
