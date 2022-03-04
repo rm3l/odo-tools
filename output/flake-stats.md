@@ -1,5 +1,5 @@
 # odo test statistics
-Last update: 2022-03-03 02:15:06 (UTC)
+Last update: 2022-03-04 02:18:16 (UTC)
 
 Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools
 ## FLAKY TESTS: Failed test scenarios in past 14 days
@@ -10,11 +10,11 @@ Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel
 
 
 # odo test statistics for periodic jobs
-Last update: 2022-03-03 02:15:09 (UTC)
+Last update: 2022-03-04 02:18:19 (UTC)
 
 | Failure Score<sup>*</sup> | Failures | Test Name | Last Seen | Cluster version and Logs 
 |---|---|---|---|---|
-| 280 | 7 | [Fail] odo devfile push command tests when Create and push java-springboot component [It] should execute default build and run commands correctly  |  | 4: [v4.10]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.10-integration-e2e-periodic/1499082291333304320/build-log.txt), [2](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.10-integration-e2e-periodic/1497995011831107584/build-log.txt), [3](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.10-integration-e2e-periodic/1495549183845732352/build-log.txt)</sup> [v4.7]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.7-integration-e2e-periodic/1497360917841580032/build-log.txt)</sup> [v4.8]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1497723329950257152/build-log.txt), [2](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1498719891392303104/build-log.txt)</sup> [v4.9]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.9-integration-e2e-periodic/1496273936772501504/build-log.txt)</sup> 
+| 360 | 9 | [Fail] odo devfile push command tests when Create and push java-springboot component [It] should execute default build and run commands correctly  |  | 4: [v4.10]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.10-integration-e2e-periodic/1495549183845732352/build-log.txt), [2](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.10-integration-e2e-periodic/1499354240504565760/build-log.txt), [3](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.10-integration-e2e-periodic/1499263487845601280/build-log.txt), [4](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.10-integration-e2e-periodic/1497995011831107584/build-log.txt), [5](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.10-integration-e2e-periodic/1499082291333304320/build-log.txt)</sup> [v4.7]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.7-integration-e2e-periodic/1497360917841580032/build-log.txt)</sup> [v4.8]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1498719891392303104/build-log.txt), [2](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1497723329950257152/build-log.txt)</sup> [v4.9]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.9-integration-e2e-periodic/1496273936772501504/build-log.txt)</sup> 
 
 
 
