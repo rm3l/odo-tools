@@ -1,5 +1,5 @@
 # odo test statistics
-Last update: 2022-04-03 02:30:40 (UTC)
+Last update: 2022-04-04 02:44:21 (UTC)
 
 Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools
 ## FLAKY TESTS: Failed test scenarios in past 14 days
@@ -11,11 +11,11 @@ Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel
 
 
 # odo test statistics for periodic jobs
-Last update: 2022-04-03 02:30:42 (UTC)
+Last update: 2022-04-04 02:44:23 (UTC)
 
 | Failure Score<sup>*</sup> | Failures | Test Name | Last Seen | Cluster version and Logs 
 |---|---|---|---|---|
-| 180 | 6 | [Fail] odo dev command tests when a component is bootstrapped and pushed when odo dev is executed when deleting previous deployment and switching kubeconfig to another namespace [It] should run odo dev on initial namespace  |  | 3: [v4.8]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1505967538289250304/build-log.txt), [2](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1505786348403953664/build-log.txt), [3](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1505424205494095872/build-log.txt), [4](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1506058481025683456/build-log.txt)</sup> [v4.7]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.7-integration-e2e-periodic/1505786347980328960/build-log.txt)</sup> [v4.9]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.9-integration-e2e-periodic/1509500958130835456/build-log.txt)</sup> 
+| 150 | 5 | [Fail] odo dev command tests when a component is bootstrapped and pushed when odo dev is executed when deleting previous deployment and switching kubeconfig to another namespace [It] should run odo dev on initial namespace  |  | 3: [v4.9]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.9-integration-e2e-periodic/1509500958130835456/build-log.txt)</sup> [v4.7]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.7-integration-e2e-periodic/1505786347980328960/build-log.txt)</sup> [v4.8]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1506058481025683456/build-log.txt), [2](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1505786348403953664/build-log.txt), [3](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1505967538289250304/build-log.txt)</sup> 
 
 
 
