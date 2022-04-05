@@ -1,5 +1,5 @@
 # odo test statistics
-Last update: 2022-04-04 02:44:21 (UTC)
+Last update: 2022-04-05 02:31:17 (UTC)
 
 Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools
 ## FLAKY TESTS: Failed test scenarios in past 14 days
@@ -7,15 +7,13 @@ Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel
 |---|---|---|---|---|
 | 90 | 3 | [Fail] odo dev command tests port-forwarding for the component when devfile has multiple endpoints [It] should expose two endpoints on localhost  |  | 3: [#5605](https://github.com/openshift/odo/pull/5605)<sup>[1](https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo/5605/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1509174434500448256/build-log.txt)</sup> [#5596](https://github.com/openshift/odo/pull/5596)<sup>[1](https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo/5596/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1508483224404234240/build-log.txt)</sup> [#5526](https://github.com/openshift/odo/pull/5526)<sup>[1](https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo/5526/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1506530690269712384/build-log.txt)</sup> 
 | 60 | 3 | [Fail] odo dev command tests when a component is bootstrapped and pushed when odo dev is executed when recording telemetry data [It] should record the telemetry data correctly  |  | 2: [#5596](https://github.com/openshift/odo/pull/5596)<sup>[1](https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo/5596/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1509565452701929472/build-log.txt), [2](https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo/5596/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1509821625405542400/build-log.txt)</sup> [#5576](https://github.com/openshift/odo/pull/5576)<sup>[1](https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo/5576/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1508352147643699200/build-log.txt)</sup> 
-| 40 | 2 | [Fail] odo devfile push command tests when Create and push java-springboot component [It] should execute default build and run commands correctly  |  | 2: [#5577](https://github.com/openshift/odo/pull/5577)<sup>[1](https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo/5577/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1506315293608120320/build-log.txt)</sup> [#5569](https://github.com/openshift/odo/pull/5569)<sup>[1](https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo/5569/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1506014244057911296/build-log.txt)</sup> 
 
 
 # odo test statistics for periodic jobs
-Last update: 2022-04-04 02:44:23 (UTC)
+Last update: 2022-04-05 02:31:18 (UTC)
 
 | Failure Score<sup>*</sup> | Failures | Test Name | Last Seen | Cluster version and Logs 
 |---|---|---|---|---|
-| 150 | 5 | [Fail] odo dev command tests when a component is bootstrapped and pushed when odo dev is executed when deleting previous deployment and switching kubeconfig to another namespace [It] should run odo dev on initial namespace  |  | 3: [v4.9]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.9-integration-e2e-periodic/1509500958130835456/build-log.txt)</sup> [v4.7]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.7-integration-e2e-periodic/1505786347980328960/build-log.txt)</sup> [v4.8]<sup>[1](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1506058481025683456/build-log.txt), [2](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1505786348403953664/build-log.txt), [3](https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-redhat-developer-odo-main-v4.8-integration-e2e-periodic/1505967538289250304/build-log.txt)</sup> 
 
 
 
