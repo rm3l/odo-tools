@@ -403,7 +403,7 @@ func parseURL(url, runType string) (string, error) {
 	index = strings.LastIndex(url[0:index-1], "/")
 
 	if runType == "pull" {
-		return "https://storage.googleapis.com/origin-ci-test/pr-logs/pull/openshift_odo" + url[index:] + "/build-log.txt", nil
+		return "https://storage.googleapis.com/origin-ci-test/pr-logs/pull/redhat-developer_odo" + url[index:] + "/build-log.txt", nil
 	} else if runType == "periodic" {
 		return "https://storage.googleapis.com/origin-ci-test" + url[index:] + "/build-log.txt", nil
 	}
@@ -423,6 +423,7 @@ func downloadTestLog(url, runType string, blobStorage BlobStorage) (string, erro
 
 	// convert
 	// https://prow.svc.ci.openshift.org/view/gcs/origin-ci-test/pr-logs/pull/batch/pull-ci-openshift-odo-master-v4.2-integration-e2e-benchmark/2047
+	// https://prow.ci.openshift.org/view/gs/origin-ci-test/pr-logs/pull/redhat-developer_odo/5809/pull-ci-redhat-developer-odo-main-v4.10-integration-e2e/1541287908823011328
 	// to
 	// https://storage.googleapis.com/origin-ci-test/pr-logs/pull/batch/pull-ci-openshift-odo-master-v4.2-integration-e2e-benchmark/2047/build-log.txt
 	// https://storage.googleapis.com/origin-ci-test/logs/periodic-ci-openshift-odo-main-v4.8-operatorhub-integration-nightly/1429594453135331328/build-log.txt
