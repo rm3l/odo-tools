@@ -1,0 +1,2 @@
+
+https://search.ci.openshift.org/?search=%5B1-9%5D%5B0-9%5D*+Failed&maxAge=168h&context=1&type=build-log&name=ci-redhat-developer-odo-main&excludeName=&maxMatches=5&maxBytes=20971520&groupBy=job
