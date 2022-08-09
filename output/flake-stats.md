@@ -1,5 +1,5 @@
 # odo test statistics
-Last update: 2022-08-08 03:09:08 (UTC)
+Last update: 2022-08-09 03:13:52 (UTC)
 
 Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel/odo-tools
 ## FLAKY TESTS: Failed test scenarios in past 14 days
@@ -8,7 +8,7 @@ Generated with https://github.com/jgwest/odo-tools/ and https://github.com/kadel
 
 
 # odo test statistics for periodic jobs
-Last update: 2022-08-08 03:09:08 (UTC)
+Last update: 2022-08-09 03:13:52 (UTC)
 
 | Failure Score<sup>*</sup> | Failures | Test Name | Last Seen | Cluster version and Logs 
 |---|---|---|---|---|
